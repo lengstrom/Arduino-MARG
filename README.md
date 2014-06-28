@@ -15,5 +15,5 @@ Repo for MARG/IMU arduino files we develop
      - Set its frequency to 38400 baud
 
 ####Useful readings
- - [Algorithm we are using](http://sharenet-wii-motion-trac.googlecode.com/files/An_efficient_orientation_filter_for_inertial_and_inertialmagnetic_sensor_arrays.pdf)
+ - [Algorithm we are using](http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf)
  - [Quaternions](http://www.x-io.co.uk/res/doc/quaternions.pdf)
