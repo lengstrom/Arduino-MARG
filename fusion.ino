@@ -50,9 +50,9 @@ int16_t gx, gy, gz;
 // System constants
 #define LED_PIN 13
 //fusion
-#define deltat 0.001f;                      // sampling period in seconds (shown as 1 ms)
-#define gyroMeasError 3.14159265358979f * (5.0f / 180.0f);    // gyroscope measurement error in rad/s (shown as 5 deg/s) // compute beta
-#define beta (sqrt(3.0f / 4.0f) * gyroMeasError);         // accelerometer measurements
+float deltat = 0.001f;                      // sampling period in seconds (shown as 1 ms)
+float gyroMeasError = 3.14159265358979f * (5.0f / 180.0f);    // gyroscope measurement error in rad/s (shown as 5 deg/s) // compute beta
+float beta = (sqrt(3.0f / 4.0f) * gyroMeasError);         // accelerometer measurements
 
 // Global system variables
 // fusion
