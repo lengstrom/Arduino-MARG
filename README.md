@@ -9,7 +9,11 @@ Repo for MARG/IMU arduino files we develop
 
 > To use the library, copy both I2Cdev and MPU6050 into your libraries folder in your main Arduino directory. If you don't have a folder called libraries, create one and drop both files in there. Now you can goto the example sketch named MPU9150_raw (in MPU6050 -> Examples), open and run the main .ino file.
 
-###FAQ:
+####FAQ:
 
  - MY SERIAL MONITOR IS GIBBERISH!!
      - Set its frequency to 38400 baud
+
+####Useful readings
+ - [Algorithm we are using](http://sharenet-wii-motion-trac.googlecode.com/files/An_efficient_orientation_filter_for_inertial_and_inertialmagnetic_sensor_arrays.pdf)
+ - [Quaternions](http://www.x-io.co.uk/res/doc/quaternions.pdf)
