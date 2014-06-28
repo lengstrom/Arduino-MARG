@@ -170,7 +170,8 @@ void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a
 	SEq_3 += (SEqDot_omega_3 - (beta * SEqHatDot_3)) * deltat;
 	SEq_4 += (SEqDot_omega_4 - (beta * SEqHatDot_4)) * deltat;
 	// Normalise quaternion
-	norm = sqrt(SEq_1 * SEq_1 + SEq_2 * SEq_2 + SEq_3 * SEq_3 + SEq_4 * SEq_4); SEq_1 /= norm;
+	norm = sqrt(SEq_1 * SEq_1 + SEq_2 * SEq_2 + SEq_3 * SEq_3 + SEq_4 * SEq_4); 
+        SEq_1 /= norm;
 	SEq_2 /= norm;
 	SEq_3 /= norm;
 	SEq_4 /= norm;
