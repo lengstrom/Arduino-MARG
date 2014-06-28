@@ -17,3 +17,4 @@ Repo for MARG/IMU arduino files we develop
 ####Useful readings
  - [Algorithm we are using](http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf)
  - [Quaternions](http://www.x-io.co.uk/res/doc/quaternions.pdf)
+ - [Euler angles to Roll/Pitch/Yaw](http://personal.maths.surrey.ac.uk/st/T.Bridges/SLOSH/3-2-1-Eulerangles.pdf)
