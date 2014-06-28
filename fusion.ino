@@ -110,7 +110,15 @@ double getPitch(double q0, double q1, double q2, double q3) {
 }
 
 double getYaw(double q0, double q1, double q2, double q3) {
-	
+	double arg1 = 2*(q2*q3-q0*q1);
+        double arg2 = 2*pow(q0,2) - 1 + 2*pow(q3,2);
+        return atan2(arg1,arg2)*57.29578;
+}
+
+double getRoll(double q0, double q1, double q2, double q3) {
+        double arg1 = 2*(q1*q2-q0*q3);
+        double arg2 = 2*pow(q0,2) - 1 + 2*pow(q1,2);
+        return atan2(arg1,arg2)*57.29578;
 }
 
 void loop() {
@@ -121,11 +129,20 @@ void loop() {
 			ct = millis();
 			deltat = (ct - lastt) * 0.001;
 			lastt = ct;
+
+                        double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
+                        double yaw = getYaw(SEq_1, SEq_2, SEq_3, SEq_4);
+                        double roll = getRoll(SEq_1, SEq_2, SEq_3, SEq_4);
+                        
 			filterUpdate(n2R(gx), n2R(gy), n2R(gz), ax, ay, az, mx, my, mz);
-			Serial.print(SEq_1); Serial.print("\t");
-			Serial.print(SEq_2); Serial.print("\t");
-			Serial.print(SEq_3); Serial.print("\t");
-			Serial.print(SEq_4); Serial.println("\t");
+			Serial.print(pitch); Serial.print("\t");
+                        Serial.print(yaw); Serial.print("\t");
+                        Serial.print(roll); Serial.println("\t");
+                        //Serial.print(SEq_1); Serial.print("\t");
+			//Serial.print(SEq_2); Serial.print("\t");
+			//Serial.print(SEq_3); Serial.print("\t");
+			//Serial.print(SEq_4); Serial.println("\t");
+
 		}
 		// blink LED to indicate activity
 		blinkState = !blinkState;
