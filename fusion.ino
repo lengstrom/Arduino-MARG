@@ -103,6 +103,16 @@ float n2g(int n) { // number to g-force // useless because we're looking at magn
 	return n * 0.00006103515626;///32768.0 * 2; //250 is the maximum
 }
 
+double getPitch(double q0, double q1, double q2, double q3) {
+	double top = 2*(q1*q3 + q0*q2);
+	double bottom = sqrt(1-pow((2*q1*q3+2*q0*q2),2));
+	return (-atan(top/bottom))*57.29578;
+}
+
+double getYaw(double q0, double q1, double q2, double q3) {
+	
+}
+
 void loop() {
 	// read raw accel/gyro measurements from device
 	if (accelgyro.testConnection()) {
