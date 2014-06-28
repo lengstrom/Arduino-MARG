@@ -96,20 +96,11 @@ void loop() {
 	// read raw accel/gyro measurements from device
 	if (accelgyro.testConnection()) {
 		accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-		 // display tab-separated accel/gyro x/y/z values
-		Serial.print("a/g/m:\t");
-		Serial.print(n2g(ax)); Serial.print("\t");
-		Serial.print(n2g(ay)); Serial.print("\t");
-		Serial.print(n2g(az)); Serial.print("\t");
-		Serial.print(n2R(gx)); Serial.print("\t");
-		Serial.print(n2R(gy)); Serial.print("\t");
-		Serial.print(n2R(gz)); Serial.println("\t");
 		filterUpdate(n2R(gx), n2R(gy), n2R(gz), n2g(ax), n2g(ay), n2g(az));
-		// (removed) magnet stuff
-		// Serial.print(mx); Serial.print("\t");
-		// Serial.print(my); Serial.print("\t");
-		// Serial.println(mz);
-
+		Serial.print(SEq_1); Serial.print("\t");
+		Serial.print(SEq_2); Serial.print("\t");
+		Serial.print(SEq_3); Serial.print("\t");
+		Serial.print(SEq_4); Serial.println("\t");
 		// blink LED to indicate activity
 		blinkState = !blinkState;
 		digitalWrite(LED_PIN, blinkState);
