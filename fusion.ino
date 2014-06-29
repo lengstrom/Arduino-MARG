@@ -139,9 +139,9 @@ void loop() {
 			float xR = n2R(gx, -0.926877914);
 			float yR = n2R(gy, 0.758192);
 			float zR = n2R(gz, 1.94250294);
-                        if (zR > l) {
-                          l = zR;
-                        }
+			if (abs(zR) > abs(l)) {
+				l = zR;
+			}
 			filterUpdate(xR, yR, zR, ax, ay, az, mx, my, mz);
 			// if (b % 25 == 0) {
 			double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
@@ -307,5 +307,3 @@ void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a
 	b_x = sqrt((h_x * h_x) + (h_y * h_y));
 	b_z = h_z;
 }
-
-
