@@ -56,8 +56,8 @@ float deltat = 0.001f;
 float lastt = 0;
 float ct = 0;
 
-float gyroMeasError = 3.14159265358979 * (5.0 / 180); 
-float gyroMeasDrift = 3.14159265358979 * (0.2 / 180); 
+float gyroMeasError = 0; //3.14159265358979 * (0 / 180); 
+float gyroMeasDrift = 0; 
 float beta = sqrt(3.0 / 4.0) * gyroMeasError;
 float zeta = sqrt(3.0 / 4.0) * gyroMeasDrift;
 int b = 0;
@@ -95,8 +95,12 @@ void setup() {
 	pinMode(LED_PIN, OUTPUT);
 }
 
-float n2R(int n) { // number to degrees
-	return n * 0.00013315805450393677; //(1.0/32768.0) * 250 * 0.01745329251994; //250 is the maximum
+float n2R(int n, float intercept) { // number to degrees
+        float deg = ((n/32768.0) * 250.0 + intercept);
+        if (abs(deg) < .3)) {
+          return 0;
+        }
+	return  * (1/57.29578);
 }
 
 float n2g(int n) { // number to g-force // useless because we're looking at magnitude
@@ -129,16 +133,21 @@ void loop() {
 			ct = millis();
 			deltat = (ct - lastt) * 0.001;
 			lastt = ct;
-			filterUpdate(n2R(gx), n2R(gy), n2R(gz), ax, ay, az, mx, my, mz);
-			if (b % 25 == 0) {
-				double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
-				double yaw = getYaw(SEq_1, SEq_2, SEq_3, SEq_4);
-				double roll = getRoll(SEq_1, SEq_2, SEq_3, SEq_4);
-				Serial.print("p/y/r"); Serial.print("\t");
-				Serial.print(pitch); Serial.print("\t");
-				Serial.print(yaw); Serial.print("\t");
-				Serial.print(roll); Serial.println("\t");
-			}
+			float xR = n2R(gx, -0.926877914);
+			float yR = n2R(gy, 0.758192);
+			float zR = n2R(gz, 1.94250294);
+			filterUpdate(xR, yR, zR, ax, ay, az, mx, my, mz);
+			// if (b % 25 == 0) {
+			double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
+			double yaw = getYaw(SEq_1, SEq_2, SEq_3, SEq_4);
+			double roll = getRoll(SEq_1, SEq_2, SEq_3, SEq_4);
+			Serial.print("p/y/r"); Serial.print("\t");
+			Serial.print(pitch); Serial.print("\t");
+			Serial.print(yaw); Serial.print("\t");
+			Serial.print(roll); Serial.println("\t");
+			// }
+		} else {
+			lastt = millis();
 		}
 		b++;
 		blinkState = !blinkState;
@@ -291,3 +300,5 @@ void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a
 	b_x = sqrt((h_x * h_x) + (h_y * h_y));
 	b_z = h_z;
 }
+
+
