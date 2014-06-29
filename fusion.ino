@@ -56,7 +56,7 @@ void setup() {
 	// initialize device
 	Serial.println("Initializing I2C devices...");
 	accelgyro.initialize();
-        accelgyro.setFullScaleGyroRange(0); //set range to +-500°/s
+        accelgyro.setFullScaleGyroRange(1); //set range to +-500°/s
         accelgyro.setFullScaleAccelRange(0); //set range to +-2g
 
 	// verify connection
@@ -68,7 +68,11 @@ void setup() {
 }
 
 float n2R(int n, float intercept) { // number to degrees
-	return ((n/32768.0) * 250.0 + intercept) * (1/57.29578);
+	float deg = ((n/32768.0) * 500.0 + intercept);
+	if (abs(deg) < .3) {
+		return 0;
+	}
+	return deg * (1/57.29578);
 }
 
 float n2g(int n) { // number to g-force // useless because we're looking at magnitude
@@ -274,3 +278,4 @@ void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a
 	b_x = sqrt((h_x * h_x) + (h_y * h_y));
 	b_z = h_z;
 }
+
