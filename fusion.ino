@@ -1,34 +1,3 @@
-// I2C device class (I2Cdev) demonstration Arduino sketch for MPU9150
-// 1/4/2013 original by Jeff Rowberg <jeff@rowberg.net> at https://github.com/jrowberg/i2cdevlib
-//          modified by Aaron Weiss <aaron@sparkfun.com>
-//
-// Changelog:
-//     2011-10-07 - initial release
-//     2013-1-4 - added raw magnetometer output
-
-/* ============================================
-I2Cdev device library code is placed under the MIT license
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-===============================================
-*/
-
 // Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
 // is used in I2Cdev.h
 #include "Wire.h"
@@ -87,7 +56,7 @@ void setup() {
 	// initialize device
 	Serial.println("Initializing I2C devices...");
 	accelgyro.initialize();
-        accelgyro.setFullScaleGyroRange(1); //set range to +-500°/s
+        accelgyro.setFullScaleGyroRange(0); //set range to +-500°/s
         accelgyro.setFullScaleAccelRange(0); //set range to +-2g
 
 	// verify connection
@@ -99,11 +68,7 @@ void setup() {
 }
 
 float n2R(int n, float intercept) { // number to degrees
-        float deg = ((n/32768.0) * 500.0 + intercept);
-        if (abs(deg) < .3) {
-          return 0;
-        }
-	return deg * (1/57.29578);
+	return ((n/32768.0) * 250.0 + intercept) * (1/57.29578);
 }
 
 float n2g(int n) { // number to g-force // useless because we're looking at magnitude
@@ -139,9 +104,11 @@ void loop() {
 			float xR = n2R(gx, -0.926877914);
 			float yR = n2R(gy, 0.758192);
 			float zR = n2R(gz, 1.94250294);
+
 			if (abs(zR) > abs(l)) {
 				l = zR;
 			}
+
 			filterUpdate(xR, yR, zR, ax, ay, az, mx, my, mz);
 			// if (b % 25 == 0) {
 			double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
@@ -151,11 +118,11 @@ void loop() {
 			Serial.print(pitch); Serial.print("\t");
 			Serial.print(yaw); Serial.print("\t");
 			Serial.print(roll); Serial.print("\t");
-                        Serial.println(l * 180/3.14159);
-			// }
+            Serial.println(l * 180/3.14159);// Serial.print("\t");
 		} else {
 			lastt = millis();
 		}
+
 		b++;
 		blinkState = !blinkState;
 		digitalWrite(LED_PIN, blinkState);
