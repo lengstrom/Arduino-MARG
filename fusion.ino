@@ -60,7 +60,7 @@ float gyroMeasError = 3.14159265358979 * (5.0 / 180);
 float gyroMeasDrift = 3.14159265358979 * (0.2 / 180); 
 float beta = sqrt(3.0 / 4.0) * gyroMeasError;
 float zeta = sqrt(3.0 / 4.0) * gyroMeasDrift;
-
+int b = 0;
 // Global system variables 
 float a_x, a_y, a_z;
 float w_x, w_y, w_z;
@@ -124,27 +124,23 @@ double getRoll(double q0, double q1, double q2, double q3) {
 void loop() {
 	// read raw accel/gyro measurements from device
 	if (accelgyro.testConnection()) {
-		if (lastt > 0) {
+		if (b > 0) {
 			accelgyro.getMotion9(&ax, &ay, &az, &gx, &gy, &gz, &mx, &my, &mz);
 			ct = millis();
 			deltat = (ct - lastt) * 0.001;
 			lastt = ct;
-
-			double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
-			double yaw = getYaw(SEq_1, SEq_2, SEq_3, SEq_4);
-			double roll = getRoll(SEq_1, SEq_2, SEq_3, SEq_4);
-			
 			filterUpdate(n2R(gx), n2R(gy), n2R(gz), ax, ay, az, mx, my, mz);
-			Serial.print(pitch); Serial.print("\t");
-			Serial.print(yaw); Serial.print("\t");
-			Serial.print(roll); Serial.println("\t");
-			//Serial.print(SEq_1); Serial.print("\t");
-			//Serial.print(SEq_2); Serial.print("\t");
-			//Serial.print(SEq_3); Serial.print("\t");
-			//Serial.print(SEq_4); Serial.println("\t");
-
+			if (b % 25 == 0) {
+				double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
+				double yaw = getYaw(SEq_1, SEq_2, SEq_3, SEq_4);
+				double roll = getRoll(SEq_1, SEq_2, SEq_3, SEq_4);
+				Serial.print("p/y/r"); Serial.print("\t");
+				Serial.print(pitch); Serial.print("\t");
+				Serial.print(yaw); Serial.print("\t");
+				Serial.print(roll); Serial.println("\t");
+			}
 		}
-		// blink LED to indicate activity
+		b++;
 		blinkState = !blinkState;
 		digitalWrite(LED_PIN, blinkState);
 	}
