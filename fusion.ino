@@ -55,6 +55,7 @@ int16_t mx, my, mz;
 float deltat = 0.001f;
 float lastt = 0;
 float ct = 0;
+float l = 0;
 
 float gyroMeasError = 0; //3.14159265358979 * (0 / 180); 
 float gyroMeasDrift = 0; 
@@ -86,6 +87,8 @@ void setup() {
 	// initialize device
 	Serial.println("Initializing I2C devices...");
 	accelgyro.initialize();
+        accelgyro.setFullScaleGyroRange(1); //set range to +-500°/s
+        accelgyro.setFullScaleAccelRange(0); //set range to +-2g
 
 	// verify connection
 	Serial.println("Testing device connections...");
@@ -96,15 +99,15 @@ void setup() {
 }
 
 float n2R(int n, float intercept) { // number to degrees
-        float deg = ((n/32768.0) * 250.0 + intercept);
-        if (abs(deg) < .3)) {
+        float deg = ((n/32768.0) * 500.0 + intercept);
+        if (abs(deg) < .3) {
           return 0;
         }
-	return  * (1/57.29578);
+	return deg * (1/57.29578);
 }
 
 float n2g(int n) { // number to g-force // useless because we're looking at magnitude
-	return n * 0.00006103515626;///32768.0 * 2; //250 is the maximum
+	return n * 0.00006103515626;// 1/32768.0 * 2; 
 }
 
 double getPitch(double q0, double q1, double q2, double q3) {
@@ -136,6 +139,9 @@ void loop() {
 			float xR = n2R(gx, -0.926877914);
 			float yR = n2R(gy, 0.758192);
 			float zR = n2R(gz, 1.94250294);
+                        if (zR > l) {
+                          l = zR;
+                        }
 			filterUpdate(xR, yR, zR, ax, ay, az, mx, my, mz);
 			// if (b % 25 == 0) {
 			double pitch = getPitch(SEq_1, SEq_2, SEq_3, SEq_4);
@@ -144,7 +150,8 @@ void loop() {
 			Serial.print("p/y/r"); Serial.print("\t");
 			Serial.print(pitch); Serial.print("\t");
 			Serial.print(yaw); Serial.print("\t");
-			Serial.print(roll); Serial.println("\t");
+			Serial.print(roll); Serial.print("\t");
+                        Serial.println(l * 180/3.14159);
 			// }
 		} else {
 			lastt = millis();
