@@ -134,11 +134,6 @@ void loop() {
 	else {
 		Serial.println("MPU6050 connection failed");
 	}
-
-	//"MPU6050 connection successful" : "MPU6050 connection failed");
-	//these methods (and a few others) are also available
-	//accelgyro.getAcceleration(&ax, &ay, &az);
-	//accelgyro.getRotation(&gx, &gy, &gz);
 }
 
 void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a_z, float m_x, float m_y, float m_z) {
@@ -278,4 +273,5 @@ void filterUpdate(float w_x, float w_y, float w_z, float a_x, float a_y, float a
 	b_x = sqrt((h_x * h_x) + (h_y * h_y));
 	b_z = h_z;
 }
+
 

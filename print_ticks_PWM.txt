@@ -1,0 +1,33 @@
+int pin = 9;
+int aPin = 3;
+int val = 333;
+int ct = 0;
+int last = 0;
+// the setup routine runs once when you press reset:
+void setup() {
+  // initialize the digital pin as an output.
+  pinMode(pin, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("Started..");
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  if (ct > 0) {
+    ct = millis();
+    if (ct - last > 1000) {
+      val =(val+ 100)% 1000;
+      last = ct;
+      Serial.println(val);
+    }
+//    Serial.println("NEW VALUE");
+//    Serial.println((val+ 100) % 1000);
+//    Serial.println("==========");
+  } else {
+    ct = millis();
+    last = ct;
+  }
+
+  analogWrite(pin, val / 4);
+  //Serial.println(analogRead(aPin));
+}
