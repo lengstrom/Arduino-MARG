@@ -11,7 +11,7 @@ Repo for MARG/IMU arduino files we develop
 
 ####FAQ:
 
- - MY SERIAL MONITOR IS GIBBERISH!!
+ - Why does my serial monitor spit out gibberish?
      - Set its frequency to 38400 baud
 
 ####Useful readings
