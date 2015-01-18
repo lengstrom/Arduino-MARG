@@ -1,7 +1,7 @@
-Gearticks-IMU-MARG
+Arduino MARG
 ==================
 
-Repo for MARG/IMU arduino files
+Repo for a MARG arduino implementation. MARG = Inertial/Magnetic Sensor Array
 
 ####Prerequisites:
   - Download the files [here: https://github.com/sparkfun/MPU-9150_Breakout](https://github.com/sparkfun/MPU-9150_Breakout)
