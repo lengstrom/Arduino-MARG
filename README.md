@@ -1,7 +1,7 @@
 Gearticks-IMU-MARG
 ==================
 
-Repo for MARG/IMU arduino files we develop
+Repo for MARG/IMU arduino files
 
 ####Prerequisites:
   - Download the files [here: https://github.com/sparkfun/MPU-9150_Breakout](https://github.com/sparkfun/MPU-9150_Breakout)
@@ -15,6 +15,6 @@ Repo for MARG/IMU arduino files we develop
      - Set its frequency to 38400 baud
 
 ####Useful readings
- - Algorithm we are using: [http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf](http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf)
+ - Algorithm used: [http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf](http://www.x-io.co.uk/res/doc/madgwick_internal_report.pdf)
  - Quaternions: [http://www.x-io.co.uk/res/doc/quaternions.pdf](http://www.x-io.co.uk/res/doc/quaternions.pdf)
  - Euler angles to Roll/Pitch/Yaw: [http://personal.maths.surrey.ac.uk/st/T.Bridges/SLOSH/3-2-1-Eulerangles.pdf](http://personal.maths.surrey.ac.uk/st/T.Bridges/SLOSH/3-2-1-Eulerangles.pdf)
